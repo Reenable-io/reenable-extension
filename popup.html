@@ -203,7 +203,7 @@
           </div>
         </div>
         <div id="dhashboardright">
-          <label for="blockuntill">Block Until:</label>
+          <label for="blockuntill">Blocked Until:</label>
           <input type="date" id="blockuntill" name="blockuntill" />
           <div id="scheduleboard">
             <input
@@ -227,24 +227,14 @@
               name="timeto"
             />
           </div>
-          <div id="sendemaildiv">
-            <input
-              type="checkbox"
-              id="sendemailinput"
-              name="sendemailinput"
-              checked
-            />
-            <label for="sendemailinput">Send me an email when time is due</label
-            ><br /><br />
-          </div>
           <span> Unblock fee</span>
           <input
             type="range"
             min="1"
-            max="1000"
-            value="60"
+            max="100"
+            value="1"
             class="slider"
-            id="myRange"
+            id="priceslider"
           />
           Value: <span id="demo"></span> USD<br />
         </div>

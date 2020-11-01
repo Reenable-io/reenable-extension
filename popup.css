@@ -260,6 +260,8 @@ main section:last-child {
 .timerangeinput {
   width: 40px;
 }
+
+
 #resetbtn {
   width: 60px;
 }
@@ -280,3 +282,91 @@ main section:last-child {
   margin-bottom: 10px;
   border-radius: 5px;
 }
+input[type=range] {
+  width: 100%;
+  margin: 8px 0;
+  background-color: transparent;
+  -webkit-appearance: none;
+}
+input[type=range]:focus {
+  outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  background: #000000;
+  border: 0.1px solid #646464;
+  border-radius: 25px;
+  width: 100%;
+  height: 0px;
+  cursor: pointer;
+}
+input[type=range]::-webkit-slider-thumb {
+  margin-top: -8.1px;
+  width: 16px;
+  height: 16px;
+  background: #ffffff;
+  border: 0.1px solid #646464;
+  border-radius: 50px;
+  cursor: pointer;
+  -webkit-appearance: none;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #7a7a7a;
+}
+input[type=range]::-moz-range-track {
+  background: #000000;
+  border: 0.1px solid #646464;
+  border-radius: 25px;
+  width: 100%;
+  height: 0px;
+  cursor: pointer;
+}
+input[type=range]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: #ffffff;
+  border: 0.1px solid #646464;
+  border-radius: 50px;
+  cursor: pointer;
+}
+input[type=range]::-ms-track {
+  background: transparent;
+  border-color: transparent;
+  border-width: 9px 0;
+  color: transparent;
+  width: 100%;
+  height: 0px;
+  cursor: pointer;
+}
+input[type=range]::-ms-fill-lower {
+  background: #000000;
+  border: 0.1px solid #646464;
+  border-radius: 50px;
+}
+input[type=range]::-ms-fill-upper {
+  background: #000000;
+  border: 0.1px solid #646464;
+  border-radius: 50px;
+}
+input[type=range]::-ms-thumb {
+  width: 16px;
+  height: 16px;
+  background: #ffffff;
+  border: 0.1px solid #646464;
+  border-radius: 50px;
+  cursor: pointer;
+  margin-top: 0px;
+  
+}
+input[type=range]:focus::-ms-fill-lower {
+  background: #000000;
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: #7a7a7a;
+}
+@supports (-ms-ime-align:auto) {
+  input[type=range] {
+    margin: 0;
+  }
+}
+
+
