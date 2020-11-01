@@ -201,41 +201,46 @@
             <button id="customurladdbtn">Add</button>
           </div>
         </div>
-        <div id="dhashboardright">
-          <label for="blockuntill">Blocked Until:</label>
-          <input type="date" id="blockuntill" name="blockuntill" />
-          <div id="scheduleboard">
-            <input
-              type="checkbox"
-              id="dailyschedule"
-              name="dailyschedule"
-              checked
-            />
-            <label for="dailyschedule">Daily schedule</label><br />
-            <input
-              type="time"
-              class="timerangeinput"
-              id="timefrom"
-              name="timefrom"
-            />
-            <label>-></label>
-            <input
-              type="time"
-              id="timeto"
-              class="timerangeinput"
-              name="timeto"
-            />
+        <div id="dashboardright">
+          <div id="dhashboardrightTop">
+            <div class="cardtitle"><label for="blockuntill">Blocked Until</label></div><br />
+            <input type="date" required="required">
+            <div id="scheduleboard">
+              <input
+                type="checkbox"
+                id="dailyschedule"
+                name="dailyschedule"
+                checked
+              />
+              <label for="dailyschedule">Daily schedule</label><br />
+              <input
+                type="time"
+                class="timerangeinput"
+                id="timefrom"
+                name="timefrom"
+              />
+              <label>-></label>
+              <input
+                type="time"
+                id="timeto"
+                class="timerangeinput"
+                name="timeto"
+              />
+            </div>
+            </div>
           </div>
-          <span> Unblock fee</span>
-          <input
-            type="range"
-            min="1"
-            max="100"
-            value="1"
-            class="slider"
-            id="priceslider"
-          />
-          Value: <span id="demo"></span> USD<br />
+            <div id="dashboardRightDown">
+            <div class="cardtitle"><span> Unblock fee</span></div><br />
+            <input
+              type="range"
+              min="1"
+              max="100"
+              value="1"
+              class="slider"
+              id="priceslider"
+            /><br />
+            Value: <span id="demo"></span> USD<br />
+          </div>
         </div>
       </div>
       <button id="addBtn">Block these websites</button>
