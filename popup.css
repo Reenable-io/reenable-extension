@@ -299,5 +299,6 @@ main section:last-child {
   height: 20px;
   margin-top: 10px;
   margin-bottom: 10px;
+  border: 1px solid var(--gray-040);
   border-radius: 5px;
 }
