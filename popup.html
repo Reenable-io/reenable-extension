@@ -1,469 +1,350 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="popup.css" />
-    <script src="jquery.js"></script>
-  </head>
-  <body>
-    <header>
-      <div>
-        <a href="https://www.reenable.io" target="_blank"
-          ><img id="popupIcon" src="images/logoVertCropped.png" alt="icon"
-        /></a>
-      </div>
-      <button id="showblocklist">
-        <img id="settingsIcon" src="images/gear.png" alt="settings" />
-      </button>
-    </header>
-    <main>
-      <label id="info"></label>
-      <div id="customadd" hidden>
-        <section>
-          <div id="exactEx" class="hidden">
-            <h2>Enter URL to block:</h2>
-            <p>E.g. https://en.wikipedia.org/wiki/GNU, etc.</p>
-          </div>
-          <div id="parentEx" class="hidden">
-            <h2>Enter web address to block:</h2>
-            <p>E.g. reddit.com/r/all, en.wikipedia.org/wiki/GNU, etc.</p>
-          </div>
-          <div id="childEx">
-            <h2>Enter web address to block:</h2>
-            <p>E.g. facebook.com, www.youtube.com, etc.</p>
-          </div>
-          <div id="keywordEx" class="hidden">
-            <h2>Enter keyword/pattern to block:</h2>
-            <p>E.g. Paul, reddit, tube, /r/all, etc.</p>
-          </div>
-          <input type="text" id="siteInput" />
-          <!-- <button id="useCurrentBtn">Use current URL</button> -->
-          <div id="error" class="alert hidden">
-            <span id="errorMsg"></span><span class="closeBtn">&times;</span>
-          </div>
-          <div id="success" class="alert hidden">
-            <span id="successMsg"></span><span class="closeBtn">&times;</span>
-          </div>
-          <label id="info"></label>
-        </section>
-        <button id="blockBtn">Block site</button>
-        <button id="removeFromList">Remove from block list</button>
-        <button id="showHelp" class="helpBtn">Show help</button>
-        <button id="hideHelp" class="hidden helpBtn">Hide help</button>
-      </div>
-      <div id="dhashboard">
-        <div id="dhashboardleft">
-          <label class="cardtitle" >Blocked websites</label>
-          <div id="mediabuttondiv">
-            <button
-              class="mediabutton"
-              id="facebook"
-              data-url="https://www.facebook.com/"
-            >
-              <img
-                src="http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=http://facebook.com"
-                alt="facebookBtn"
-                width="32px"
-              />
-            </button>
 
-            <button
-              class="mediabutton"
-              id="twitter"
-              data-url="https://twitter.com/"
-            >
-              <img
-                src="http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=http://twitter.com"
-                alt="twitterBtn"
-                width="32px"
-              />
-            </button>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="popup.css" />
+  <script src="jquery.js"></script>
+</head>
 
-            <button
-              class="mediabutton"
-              id="instagram"
-              data-url="https://www.instagram.com/"
-            >
-              <img
-                src="http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=http://instagram.com"
-                alt="instagramBtn"
-                width="32px"
-              />
-            </button>
-
-            <button
-              class="mediabutton"
-              id="linkedin"
-              data-url="https://www.linkedin.com/"
-            >
-              <img
-                src="http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=http://linkedin.com"
-                alt="linkedinBtn"
-                width="32px"
-              />
-            </button>
-
-            <button
-              class="mediabutton"
-              id="youtube"
-              data-url="https://www.youtube.com"
-            >
-              <img
-                src="http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=http://youtube.com"
-                alt="youtubeBtn"
-                width="32px"
-              />
-            </button>
-
-            <button
-              class="mediabutton"
-              id="tumblr"
-              data-url="https://www.tumblr.com/"
-            >
-              <img
-                src="http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=http://tumblr.com"
-                alt="tumblrBtn"
-                width="32px"
-              />
-            </button>
-
-            <button
-              class="mediabutton"
-              id="pintrest"
-              data-url="https://www.pintrest.com/"
-            >
-              <img
-                src="http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=http://pintrest.com"
-                alt="pintrestBtn"
-                width="32px"
-              />
-            </button>
-            <button
-              class="mediabutton"
-              id="reddit"
-              data-url="https://www.reddit.com/"
-            >
-              <img
-                src="http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=http://reddit.com"
-                alt="redditBtn"
-                width="32px"
-              />
-            </button>
-            <button
-              class="mediabutton"
-              id="netflix"
-              data-url="https://www.netflix.com/"
-            >
-              <img
-                src="http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=http://netflix.com"
-                alt="netflixBtn"
-                width="32px"
-              />
-            </button>
-            <button
-              class="mediabutton"
-              id="twitch"
-              data-url="https://www.twitch.tv/"
-            >
-              <img
-                src="http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=http://twitch.tv"
-                alt="twitch.tv"
-                width="32px"
-              />
-            </button>
-            <button
-              class="mediabutton"
-              id="whatsapp"
-              data-url="https://www.whatsapp.com/"
-            >
-              <img
-                src="http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=http://whatsapp.com"
-                alt="whatsapp.com"
-                width="32px"
-              />
-            </button>
-            <button
-              class="mediabutton"
-              id="tiktok"
-              data-url="https://www.tiktok.com/"
-            >
-              <img
-                src="http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=http://tiktok.com"
-                alt="tiktok.com"
-                width="32px"
-              />
-            </button>
-          </div>
-          <br />
-          <div id="customurldiv">
-            <button id="addcustom"> oui </button>
-            <input type="text" placeholder="Enter URL" id="customurlinput" hidden /><br />
-            <button id="customurladdbtn">Add</button hidden>
-          </div>
+<body>
+  <header>
+    <div>
+      <a href="https://www.reenable.io" target="_blank"><img id="popupIcon" src="images/logoVertCropped.png"
+          alt="icon" /></a>
+    </div>
+    <button id="showblocklist">
+      <img id="settingsIcon" src="images/gear.png" alt="settings" />
+    </button>
+  </header>
+  <main>
+    <label id="info"></label>
+    <div id="customadd" hidden>
+      <section>
+        <div id="exactEx" class="hidden">
+          <h2>Enter URL to block:</h2>
+          <p>E.g. https://en.wikipedia.org/wiki/GNU, etc.</p>
         </div>
-        <div id="dashboardright">
-          <div id="dashboardRightTop">
-            <div class="cardtitle"><label for="blockuntill">Blocked Until</label></div><br />
-            <input type="date" required="required">
-            <div id="scheduleboard">
-              <input
-                type="checkbox"
-                id="dailyschedule"
-                name="dailyschedule"
-                checked
-              />
-              <label for="dailyschedule">Daily schedule</label><br />
-              <input
-                type="time"
-                class="timerangeinput"
-                id="timefrom"
-                name="timefrom"
-              />
-              <label>-></label>
-              <input
-                type="time"
-                id="timeto"
-                class="timerangeinput"
-                name="timeto"
-              />
-            </div>
-            </div>
-          </div>
-          <div id="dashboardRightDown">
-          <div class="cardtitle"><span> Unblock fee</span></div><br />
-            <input
-              type="range"
-              min="1"
-              max="100"
-              value="1"
-              class="slider"
-              id="priceslider"
-            /><br />
-            Value: <span id="demo"></span> USD<br />
-          </div>
+        <div id="parentEx" class="hidden">
+          <h2>Enter web address to block:</h2>
+          <p>E.g. reddit.com/r/all, en.wikipedia.org/wiki/GNU, etc.</p>
         </div>
-      </div>
-      <button id="addBtn">Block these websites</button>
-      <div id="unblockboard" hidden>
-        <div id="unblockboardleft">
-          <label id="unblockboardhead">Blocked websites</label>
-          <div id="unblockboarddiv"></div>
+        <div id="childEx">
+          <h2>Enter web address to block:</h2>
+          <p>E.g. facebook.com, www.youtube.com, etc.</p>
         </div>
-        <div id="unblockboardright">
-          <span id="blockeduntillspan"> Blocked until : </span>
-          <input
-            type="range"
-            min="1"
-            max="1761177600000"
-            value="60"
-            class="slider"
-            id="untillprogress"
-          />
-          <div id="sendemaildiv">
-            <input
-              type="checkbox"
-              id="sendemailinputblocked"
-              name="sendemailinputblocked"
-              checked
-            />
-            <label for="sendemailinputblocked"
-              >Send me an email when time is due</label
-            ><br /><br />
-          </div>
-          <button id="btnunblock">unblock</button>
+        <div id="keywordEx" class="hidden">
+          <h2>Enter keyword/pattern to block:</h2>
+          <p>E.g. Paul, reddit, tube, /r/all, etc.</p>
         </div>
-      </div>
-      <section id="help" class="hidden">
-        <div id="exactInfo" class="info hidden">
-          <h2>Block exact URL</h2>
-          <p>
-            <b>For advanced users only.</b><br />
-            This option will block only one web address that exactly matches the
-            given URL.
-          </p>
-          <h3>When to use this option</h3>
-          <p>
-            Use this option if you want to block one specific website (the other
-            options will usually be more useful).
-          </p>
-          <button class="exampleBtn"><span>Show</span> example</button>
-          <div class="example hidden">
-            <h3>E.g. <i>https://www.reddit.com</i></h3>
-            <h4>This option will block the following website:</h4>
-            <ul>
-              <li><b>https://www.reddit.com</b></li>
-            </ul>
-            <h4>This option will not block the following websites:</h4>
-            <ul>
-              <li>https://www.reddit.com/r</li>
-              <li>https://www.reddit.com/r/all</li>
-              <li>https://www.reddit.com/r/all/top</li>
-              <li>etc.</li>
-            </ul>
-          </div>
-          <aside>
-            <b>Note:</b> you must include the protocol (http:// or https://) at
-            the beginning of the given URL for this option to successfully block
-            most web addresses.
-          </aside>
-          <br />
+        <input type="text" id="siteInput" />
+        <!-- <button id="useCurrentBtn">Use current URL</button> -->
+        <div id="error" class="alert hidden">
+          <span id="errorMsg"></span><span class="closeBtn">&times;</span>
         </div>
-        <div id="parentInfo" class="info hidden">
-          <h2>Block URL and parent URL's</h2>
-          <p>
-            This option will block web addresses matching the given URL and any
-            URL that is <b>within</b> the given URL.
-          </p>
-          <h3>When to use this option</h3>
-          <p>
-            Use this option if you want to block a website's main page(s) but
-            still be able to visit its minor pages.
-          </p>
-          <button class="exampleBtn"><span>Show</span> example 1</button>
-          <div class="example hidden">
-            <h3>E.g. <i>www.reddit.com/r/all</i></h3>
-            <h4>This option will block the following websites:</h4>
-            <ul>
-              <li><b>www.reddit.com/r/all</b></li>
-              <li>www.reddit.com/r</li>
-              <li>www.reddit.com</li>
-              <li>etc.</li>
-            </ul>
-            <h4>This option will not block the following websites:</h4>
-            <ul>
-              <li>www.reddit.com/r/a</li>
-              <li><b>www.reddit.com/r/all/</b>top</li>
-              <li>www.reddit.com/r/Gentoo</li>
-              <li>www.reddit.com/r/Gentoo/comments/abc/xyz</li>
-              <li>etc.</li>
-            </ul>
-          </div>
-          <button class="exampleBtn"><span>Show</span> example 2</button>
-          <div class="example hidden">
-            <h3>E.g. <i>www.reddit.com/r/*</i></h3>
-            <h4>This option will block the following websites:</h4>
-            <ul>
-              <li><b>www.reddit.com/r/Gentoo</b></li>
-              <li><b>www.reddit.com/r/all</b></li>
-              <li>www.reddit.com/r</li>
-              <li>www.reddit.com</li>
-              <li>etc.</li>
-            </ul>
-            <h4>This option will not block the following websites:</h4>
-            <ul>
-              <li><b>www.reddit.com/r/all/</b>top</li>
-              <li><b>www.reddit.com/r/Gentoo/</b>comments/abc/xyz</li>
-              <li>etc.</li>
-            </ul>
-          </div>
-          <aside>
-            <b>Note:</b> you can use the <span class="special"></span> wildcard
-            character to represent a generic placeholder for any text (not
-            including empty text or slashes). Blocking only the
-            <span class="special"></span> character will block all web
-            addresses. You may change this character in
-            <a href="options.html#wildcardHeading" target="_blank">Options</a>.
-          </aside>
+        <div id="success" class="alert hidden">
+          <span id="successMsg"></span><span class="closeBtn">&times;</span>
         </div>
-        <div id="childInfo" class="info">
-          <h2>Block URL and child URL's</h2>
-          <p>
-            This option will block web addresses matching the given URL and any
-            URL that <b>contains</b> the given URL.
-          </p>
-          <h3>When to use this option</h3>
-          <p>
-            Use this option if you want to block a website entirely or block a
-            website's minor pages but still be able to visit its main page(s).
-          </p>
-          <button class="exampleBtn"><span>Show</span> example 1</button>
-          <div class="example hidden">
-            <h3>E.g. <i>www.reddit.com/r/all</i></h3>
-            <h4>This option will block the following websites:</h4>
-            <ul>
-              <li><b>www.reddit.com/r/all</b></li>
-              <li><b>www.reddit.com/r/all/</b>top</li>
-              <li><b>www.reddit.com/r/all/</b>comments/abc/xyz</li>
-              <li>etc.</li>
-            </ul>
-            <h4>This option will not block the following websites:</h4>
-            <ul>
-              <li>www.reddit.com/r/allsvenskan</li>
-              <li>www.reddit.com/r/a</li>
-              <li>www.reddit.com/r</li>
-              <li>www.reddit.com</li>
-              <li>etc.</li>
-            </ul>
-          </div>
-          <button class="exampleBtn"><span>Show</span> example 2</button>
-          <div class="example hidden">
-            <h3>E.g. <i>www.reddit.com/r/*</i></h3>
-            <h4>This option will block the following websites:</h4>
-            <ul>
-              <li><b>www.reddit.com/r/all</b></li>
-              <li><b>www.reddit.com/r/all/</b>top</li>
-              <li><b>www.reddit.com/r/Gentoo</b></li>
-              <li><b>www.reddit.com/r/Gentoo/</b>comments/abc/xyz</li>
-              <li>etc.</li>
-            </ul>
-            <h4>This option will not block the following websites:</h4>
-            <ul>
-              <li>www.reddit.com</li>
-              <li>www.reddit.com/r</li>
-              <li>etc.</li>
-            </ul>
-          </div>
-          <aside>
-            <b>Note:</b> you can use the <span class="special"></span> wildcard
-            character to represent a generic placeholder for any text (not
-            including empty text or slashes). Blocking only the
-            <span class="special"></span> character will block all web
-            addresses. You may change this character in
-            <a href="options.html#wildcardHeading" target="_blank">Options</a>.
-          </aside>
-        </div>
-        <div id="keywordInfo" class="info hidden">
-          <h2>Block keyword/pattern</h2>
-          <p>
-            This option will block all web addresses containing the given
-            keyword or pattern.
-          </p>
-          <h3>When to use this option</h3>
-          <p>
-            Use this option if you want to block every website that contains a
-            specific word or pattern in its URL.
-          </p>
-          <button class="exampleBtn"><span>Show</span> example</button>
-          <div class="example hidden">
-            <h3>E.g. <i>reddit</i></h3>
-            <h4>This option will block the following websites:</h4>
-            <ul>
-              <li>www.<b>reddit</b>.com</li>
-              <li>www.<b>reddit</b>.com/r/all/top</li>
-              <li>videos.<b>reddit</b>.com</li>
-              <li>www.<b>reddit</b>.org</li>
-              <li>www.google.com/search?q=<b>reddit</b></li>
-              <li>en.wikipedia.org/wiki/<b>reddit</b></li>
-              <li>etc.</li>
-            </ul>
-            <h4>This option will not block the following websites:</h4>
-            <ul>
-              <li>red.dit.com</li>
-              <li>etc.</li>
-            </ul>
-          </div>
-          <aside>
-            <b>Note:</b> you can use the <span class="special"></span> wildcard
-            character to represent a generic placeholder for any text (including
-            empty text). Blocking only the
-            <span class="special"></span> character will block all web
-            addresses. You may change this character in
-            <a href="options.html#wildcardHeading" target="_blank">Options</a>.
-          </aside>
-        </div>
+        <label id="info"></label>
       </section>
-    </main>
-    <script src="popup.js"></script>
-  </body>
+      <button id="blockBtn">Block site</button>
+      <button id="removeFromList">Remove from block list</button>
+      <button id="showHelp" class="helpBtn">Show help</button>
+      <button id="hideHelp" class="hidden helpBtn">Hide help</button>
+    </div>
+    <div id="dhashboard">
+      <div id="dhashboardleft">
+        <label class="cardtitle">Blocked websites</label>
+        <div id="mediabuttondiv">
+          <button class="mediabutton" id="facebook" data-url="https://www.facebook.com/">
+            <img src="http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=http://facebook.com"
+              alt="facebookBtn" width="32px" />
+          </button>
+
+          <button class="mediabutton" id="twitter" data-url="https://twitter.com/">
+            <img src="http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=http://twitter.com" alt="twitterBtn"
+              width="32px" />
+          </button>
+
+          <button class="mediabutton" id="instagram" data-url="https://www.instagram.com/">
+            <img src="http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=http://instagram.com"
+              alt="instagramBtn" width="32px" />
+          </button>
+
+          <button class="mediabutton" id="linkedin" data-url="https://www.linkedin.com/">
+            <img src="http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=http://linkedin.com"
+              alt="linkedinBtn" width="32px" />
+          </button>
+
+          <button class="mediabutton" id="youtube" data-url="https://www.youtube.com">
+            <img src="http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=http://youtube.com" alt="youtubeBtn"
+              width="32px" />
+          </button>
+
+          <button class="mediabutton" id="tumblr" data-url="https://www.tumblr.com/">
+            <img src="http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=http://tumblr.com" alt="tumblrBtn"
+              width="32px" />
+          </button>
+
+          <button class="mediabutton" id="pintrest" data-url="https://www.pintrest.com/">
+            <img src="http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=http://pintrest.com"
+              alt="pintrestBtn" width="32px" />
+          </button>
+          <button class="mediabutton" id="reddit" data-url="https://www.reddit.com/">
+            <img src="http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=http://reddit.com" alt="redditBtn"
+              width="32px" />
+          </button>
+          <button class="mediabutton" id="netflix" data-url="https://www.netflix.com/">
+            <img src="http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=http://netflix.com" alt="netflixBtn"
+              width="32px" />
+          </button>
+          <button class="mediabutton" id="twitch" data-url="https://www.twitch.tv/">
+            <img src="http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=http://twitch.tv" alt="twitch.tv"
+              width="32px" />
+          </button>
+          <button class="mediabutton" id="whatsapp" data-url="https://www.whatsapp.com/">
+            <img src="http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=http://whatsapp.com"
+              alt="whatsapp.com" width="32px" />
+          </button>
+          <button class="mediabutton" id="tiktok" data-url="https://www.tiktok.com/">
+            <img src="http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=http://tiktok.com" alt="tiktok.com"
+              width="32px" />
+          </button>
+        </div>
+        <br />
+        <div id="customurldiv">
+          <button id="addcustom"> oui </button>
+          <input type="text" placeholder="Enter URL" id="customurlinput" hidden /><br />
+          <button id="customurladdbtn">Add</button hidden>
+        </div>
+      </div>
+      <div id="dashboardright">
+        <div id="dashboardRightTop">
+          <div class="cardtitle"><label for="blockuntil">Blocked Until</label></div><br />
+          <input type="date" required="required" />
+          <div id="scheduleboard">
+            <input type="checkbox" id="dailyschedule" name="dailyschedule" checked />
+            <label for="dailyschedule">Daily Schedule</label><br />
+            <input type="time" class="timerangeinput" id="timefrom" name="timefrom">
+            <label>-></label>
+            <input type="time" class="timerangeinput" id="timeto" name="timeto">
+          </div>
+        </div>
+        <div id="dashboardRightDown">
+          <div class="cardtitle"><span>Unblock fee</span></div><br />
+          <input type="range" min="1" max="100" value="30" class="slider" id="priceslider"><br />
+          <span>Value: </span> <span id="demo"></span> <span>USD</span><br />
+        </div>
+      </div>
+    </div>
+    <button id="addBtn">Block these websites</button>
+    <div id="unblockboard" hidden>
+      <div id="unblockboardleft">
+        <label id="unblockboardhead">Blocked websites</label>
+        <div id="unblockboarddiv"></div>
+      </div>
+      <div id="unblockboardright">
+        <span id="blockeduntillspan"> Blocked until : </span>
+        <input type="range" min="1" max="1761177600000" value="60" class="slider" id="untillprogress" />
+        <div id="sendemaildiv">
+          <input type="checkbox" id="sendemailinputblocked" name="sendemailinputblocked" checked />
+          <label for="sendemailinputblocked">Send me an email when time is due</label><br /><br />
+        </div>
+        <button id="btnunblock">unblock</button>
+      </div>
+    </div>
+    <section id="help" class="hidden">
+      <div id="exactInfo" class="info hidden">
+        <h2>Block exact URL</h2>
+        <p>
+          <b>For advanced users only.</b><br />
+          This option will block only one web address that exactly matches the
+          given URL.
+        </p>
+        <h3>When to use this option</h3>
+        <p>
+          Use this option if you want to block one specific website (the other
+          options will usually be more useful).
+        </p>
+        <button class="exampleBtn"><span>Show</span> example</button>
+        <div class="example hidden">
+          <h3>E.g. <i>https://www.reddit.com</i></h3>
+          <h4>This option will block the following website:</h4>
+          <ul>
+            <li><b>https://www.reddit.com</b></li>
+          </ul>
+          <h4>This option will not block the following websites:</h4>
+          <ul>
+            <li>https://www.reddit.com/r</li>
+            <li>https://www.reddit.com/r/all</li>
+            <li>https://www.reddit.com/r/all/top</li>
+            <li>etc.</li>
+          </ul>
+        </div>
+        <aside>
+          <b>Note:</b> you must include the protocol (http:// or https://) at
+          the beginning of the given URL for this option to successfully block
+          most web addresses.
+        </aside>
+        <br />
+      </div>
+      <div id="parentInfo" class="info hidden">
+        <h2>Block URL and parent URL's</h2>
+        <p>
+          This option will block web addresses matching the given URL and any
+          URL that is <b>within</b> the given URL.
+        </p>
+        <h3>When to use this option</h3>
+        <p>
+          Use this option if you want to block a website's main page(s) but
+          still be able to visit its minor pages.
+        </p>
+        <button class="exampleBtn"><span>Show</span> example 1</button>
+        <div class="example hidden">
+          <h3>E.g. <i>www.reddit.com/r/all</i></h3>
+          <h4>This option will block the following websites:</h4>
+          <ul>
+            <li><b>www.reddit.com/r/all</b></li>
+            <li>www.reddit.com/r</li>
+            <li>www.reddit.com</li>
+            <li>etc.</li>
+          </ul>
+          <h4>This option will not block the following websites:</h4>
+          <ul>
+            <li>www.reddit.com/r/a</li>
+            <li><b>www.reddit.com/r/all/</b>top</li>
+            <li>www.reddit.com/r/Gentoo</li>
+            <li>www.reddit.com/r/Gentoo/comments/abc/xyz</li>
+            <li>etc.</li>
+          </ul>
+        </div>
+        <button class="exampleBtn"><span>Show</span> example 2</button>
+        <div class="example hidden">
+          <h3>E.g. <i>www.reddit.com/r/*</i></h3>
+          <h4>This option will block the following websites:</h4>
+          <ul>
+            <li><b>www.reddit.com/r/Gentoo</b></li>
+            <li><b>www.reddit.com/r/all</b></li>
+            <li>www.reddit.com/r</li>
+            <li>www.reddit.com</li>
+            <li>etc.</li>
+          </ul>
+          <h4>This option will not block the following websites:</h4>
+          <ul>
+            <li><b>www.reddit.com/r/all/</b>top</li>
+            <li><b>www.reddit.com/r/Gentoo/</b>comments/abc/xyz</li>
+            <li>etc.</li>
+          </ul>
+        </div>
+        <aside>
+          <b>Note:</b> you can use the <span class="special"></span> wildcard
+          character to represent a generic placeholder for any text (not
+          including empty text or slashes). Blocking only the
+          <span class="special"></span> character will block all web
+          addresses. You may change this character in
+          <a href="options.html#wildcardHeading" target="_blank">Options</a>.
+        </aside>
+      </div>
+      <div id="childInfo" class="info">
+        <h2>Block URL and child URL's</h2>
+        <p>
+          This option will block web addresses matching the given URL and any
+          URL that <b>contains</b> the given URL.
+        </p>
+        <h3>When to use this option</h3>
+        <p>
+          Use this option if you want to block a website entirely or block a
+          website's minor pages but still be able to visit its main page(s).
+        </p>
+        <button class="exampleBtn"><span>Show</span> example 1</button>
+        <div class="example hidden">
+          <h3>E.g. <i>www.reddit.com/r/all</i></h3>
+          <h4>This option will block the following websites:</h4>
+          <ul>
+            <li><b>www.reddit.com/r/all</b></li>
+            <li><b>www.reddit.com/r/all/</b>top</li>
+            <li><b>www.reddit.com/r/all/</b>comments/abc/xyz</li>
+            <li>etc.</li>
+          </ul>
+          <h4>This option will not block the following websites:</h4>
+          <ul>
+            <li>www.reddit.com/r/allsvenskan</li>
+            <li>www.reddit.com/r/a</li>
+            <li>www.reddit.com/r</li>
+            <li>www.reddit.com</li>
+            <li>etc.</li>
+          </ul>
+        </div>
+        <button class="exampleBtn"><span>Show</span> example 2</button>
+        <div class="example hidden">
+          <h3>E.g. <i>www.reddit.com/r/*</i></h3>
+          <h4>This option will block the following websites:</h4>
+          <ul>
+            <li><b>www.reddit.com/r/all</b></li>
+            <li><b>www.reddit.com/r/all/</b>top</li>
+            <li><b>www.reddit.com/r/Gentoo</b></li>
+            <li><b>www.reddit.com/r/Gentoo/</b>comments/abc/xyz</li>
+            <li>etc.</li>
+          </ul>
+          <h4>This option will not block the following websites:</h4>
+          <ul>
+            <li>www.reddit.com</li>
+            <li>www.reddit.com/r</li>
+            <li>etc.</li>
+          </ul>
+        </div>
+        <aside>
+          <b>Note:</b> you can use the <span class="special"></span> wildcard
+          character to represent a generic placeholder for any text (not
+          including empty text or slashes). Blocking only the
+          <span class="special"></span> character will block all web
+          addresses. You may change this character in
+          <a href="options.html#wildcardHeading" target="_blank">Options</a>.
+        </aside>
+      </div>
+      <div id="keywordInfo" class="info hidden">
+        <h2>Block keyword/pattern</h2>
+        <p>
+          This option will block all web addresses containing the given
+          keyword or pattern.
+        </p>
+        <h3>When to use this option</h3>
+        <p>
+          Use this option if you want to block every website that contains a
+          specific word or pattern in its URL.
+        </p>
+        <button class="exampleBtn"><span>Show</span> example</button>
+        <div class="example hidden">
+          <h3>E.g. <i>reddit</i></h3>
+          <h4>This option will block the following websites:</h4>
+          <ul>
+            <li>www.<b>reddit</b>.com</li>
+            <li>www.<b>reddit</b>.com/r/all/top</li>
+            <li>videos.<b>reddit</b>.com</li>
+            <li>www.<b>reddit</b>.org</li>
+            <li>www.google.com/search?q=<b>reddit</b></li>
+            <li>en.wikipedia.org/wiki/<b>reddit</b></li>
+            <li>etc.</li>
+          </ul>
+          <h4>This option will not block the following websites:</h4>
+          <ul>
+            <li>red.dit.com</li>
+            <li>etc.</li>
+          </ul>
+        </div>
+        <aside>
+          <b>Note:</b> you can use the <span class="special"></span> wildcard
+          character to represent a generic placeholder for any text (including
+          empty text). Blocking only the
+          <span class="special"></span> character will block all web
+          addresses. You may change this character in
+          <a href="options.html#wildcardHeading" target="_blank">Options</a>.
+        </aside>
+      </div>
+    </section>
+  </main>
+  <script src="popup.js"></script>
+</body>
+
 </html>

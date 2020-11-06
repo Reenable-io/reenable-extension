@@ -4,6 +4,9 @@
   --gray-040: hsl(0, 0%, 40%);
   --gray-060: hsl(0, 0%, 60%);
   --gray-080: hsl(0, 0%, 80%);
+  --gray-090: hsl(0, 0%, 90%);
+  --gray-095: hsl(0, 0%, 95%);
+  --gray-098: hsl(0, 0%, 98%);
   --gray-100: hsl(0, 0%, 100%);
 }
 a {
@@ -249,7 +252,7 @@ main section:last-child {
   padding: 15px;
   border: 1px solid var(--gray-080);
   border-radius: 5px;
-  /*background-color: var(--gray-100);*/
+  background-color: hsl(0, 0%, 92%);
   box-shadow: 0px 5px 10px var(--gray-040);
 }
 .cardtitle {
@@ -261,14 +264,22 @@ main section:last-child {
   display: flex;
   align-items: center;
   justify-content: center;
+  max-width: 50%;
 }
 #dashboardRightTop,
 #dashboardRightDown {
+  vertical-align: middle;
   padding: 20px;
   border: 1px solid var(--gray-080);
   border-radius: 5px;
   background-color: var(--gray-100);
   box-shadow: 0px 5px 10px var(--gray-040);
+}
+#dashboardRightTop {
+  align-self: flex-start;
+}
+#dashboardRightDown {
+  align-self: flex-end;
 }
 #unblockboard {
   margin: 10px;
