@@ -268,7 +268,6 @@ main section:last-child {
 }
 #dashboardRightTop,
 #dashboardRightDown {
-  vertical-align: middle;
   padding: 20px;
   border: 1px solid var(--gray-080);
   border-radius: 5px;
