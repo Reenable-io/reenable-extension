@@ -4,14 +4,19 @@
   "description": "Bad conscience can't make you quit wasting your time on social media, but money can.",
   "short_name": "Reenable",
   "version": "0.0.4",
-  "icons": { "128": "images/iconR.png" },
+  "icons": {
+    "128": "images/iconR.png"
+  },
   "browser_action": {
     "default_icon": "images/iconR.png",
     "default_popup": "popup.html"
   },
   "background": {
     "persistent": true,
-    "scripts": ["jquery.js", "background.js"]
+    "scripts": [
+      "jquery.js",
+      "background.js"
+    ]
   },
   "permissions": [
     "<all_urls>",
