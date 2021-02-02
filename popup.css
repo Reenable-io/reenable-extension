@@ -20,7 +20,7 @@ a:hover {
 
 body {
   margin: 0;
-  width: 600px;
+  width: auto;
 
   background-color: var(--gray-080);
 }
@@ -232,8 +232,15 @@ main section:last-child {
   font-weight: bold;
 }
 
-#dhashboard {
+#dashboard {
   padding: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+.cardtitle {
+  font-weight: bold;
+  font-size: medium;
+  color: var(--gray-040);
 }
 .mediabutton {
   width: auto;
@@ -244,34 +251,31 @@ main section:last-child {
 #addcustom {
   margin-top: 7px;
 }
-
-#dhashboardleft,
-#unblockboardleft {
+#dashboardLeft {
   width: 200px;
   float: left;
-  padding: 15px;
+  padding: 20px;
+  margin: 20px;
   border: 1px solid var(--gray-080);
   border-radius: 5px;
   background-color: hsl(0, 0%, 92%);
   box-shadow: 0px 5px 10px var(--gray-040);
 }
-.cardtitle {
-  font-weight: bold;
-  font-size: medium;
-  color: var(--gray-040);
-}
-#dashboardright {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  max-width: 50%;
-}
-#dashboardRightTop,
-#dashboardRightDown {
+
+#dashboardRightTop {
   padding: 20px;
+  margin: 20px;
   border: 1px solid var(--gray-080);
   border-radius: 5px;
-  background-color: var(--gray-100);
+  background-color: hsl(0, 0%, 92%);
+  box-shadow: 0px 5px 10px var(--gray-040);
+}
+#dashboardRightDown{
+  padding: 20px;
+  margin: 20px;
+  border: 1px solid var(--gray-080);
+  border-radius: 5px;
+  background-color: hsl(0, 0%, 92%);
   box-shadow: 0px 5px 10px var(--gray-040);
 }
 #unblockboard {
