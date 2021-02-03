@@ -1,18 +1,19 @@
+const { url } = require("inspector");
 
 $(document).ready(function() {
 
 let storage = chrome.storage.local;
-var slider = document.getElementById("myRange");
+var slider = document.getElementById("priceslider");
 var output = document.getElementById("demo");
 var mediabutton=$(".mediabutton");
-var resetbtn=$("#resetbtn");
+//var resetbtn=$("#resetbtn");
 var addcustom=$("#addcustom");
 var customurldiv=$("#customurldiv");
 var customurlinput=$("#customurlinput");
 var customurladdbtn=$("#customurladdbtn");
 var showblocklist=$("#showblocklist");
 var unblockboard=$("#unblockboard");
-var dhashboard=$("#dhashboard");
+var dashboard=$("#dashboard");
 var unblockboardhead=$("#unblockboardhead");
 
 
@@ -23,12 +24,17 @@ var myRange=1;
 
 output.innerHTML = slider.value;
 
+mediabutton.on('dragstart', function(event) { event.preventDefault(); });
+
 slider.oninput = function() {
   output.innerHTML = this.value;
   myRange=this.value;
+  if (this.value >= 100){
+
+  }
 }
 
-chrome.runtime.sendMessage({job: "getBlockInfoFromDb"}, function(response) {
+/*chrome.runtime.sendMessage({job: "getBlockInfoFromDb"}, function(response) {
   
   for(let i=0;i<response.message.data.length;i++)
   {
@@ -50,9 +56,9 @@ chrome.runtime.sendMessage({job: "getBlockInfoFromDb"}, function(response) {
       $(this).prop('disabled', true);
     })
    
-  })
+  })*/
 
-resetbtn.click(function()
+/*resetbtn.click(function()
 {
   mediabutton.each(function(index)
 {
@@ -60,24 +66,28 @@ resetbtn.click(function()
 })
 customurlinput.val("");
 location.reload();
-});
+});*/
 
+mediabutton.click(function() {
+  mediabutton.removeClass("lowopacity");
+  $(this).addClass("lowopacity");
+});
 
 addcustom.click(function()
 {
   customurldiv.prop('hidden', false);
   addcustom.prop('hidden', true);
 });
+
+customurlinput.input.addEventListener("keyup", function(event) {
+  if (event.key == "Enter") {
+    event.preventDefault();
+    document.getElementById(customurladdbtn).click();
+  }});
+
 customurladdbtn.click(function()
 {
-  if(customurlinput.val().split(".").length<2|| hasdublicatebutton(customurlinput.val().split(".")[1]))
-  {
-    customurlinput.val("");
-    showInfo("falure","Already Taken");
-  }
-  else{
-    $( "#mediabuttondiv" ).append( '<button class="mediabutton" id="'+customurlinput.val().split(".")[1]+'" data-url="'+customurlinput.val()+'" disabled>'+customurlinput.val().split(".")[1]+'</button>');
-  }
+  $( "#mediabuttondiv" ).append( '<button class="mediabutton" id="'+customurlinput+'" data-url="'+customurlinput+'" disabled>'+customurlinput+'</button>');
 });
 
 addbtn.click(function()
@@ -148,7 +158,7 @@ showblocklist.click(function()
       })
     },1000)
   unblockboard.prop('hidden', false);
-  dhashboard.prop('hidden', true);
+  dashboard.prop('hidden', true);
 });
 $("#btnunblock").click(function()
 {

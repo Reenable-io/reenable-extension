@@ -9,25 +9,24 @@
   --gray-098: hsl(0, 0%, 98%);
   --gray-100: hsl(0, 0%, 100%);
 }
+
+* {
+  outline: none;
+}
+
 a {
   font-weight: bold;
   text-decoration: none;
 }
 
-a:hover {
-  text-decoration: underline;
-}
+
 
 body {
   margin: 0;
   width: auto;
-
-  background-color: var(--gray-080);
+  background-color: hsl(0, 0%, 92%);
 }
 
-header {
-  box-shadow: 0px 5px 10px var(--gray-060);
-}
 hr {
   display: block;
   height: 1px;
@@ -64,10 +63,11 @@ button {
   width: auto;
   height: auto;
   background: none;
+  outline: none;
 }
 button:hover {
   cursor: pointer;
-  opacity: 40%;
+  opacity: 60%;
 }
 
 header {
@@ -126,6 +126,7 @@ main section:last-child {
   height: 40px;
   margin-left: 10px;
   width: auto;
+  opacity: 0%;
 }
 
 #showblocklist {
@@ -232,51 +233,69 @@ main section:last-child {
   font-weight: bold;
 }
 
-#dashboard {
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-}
 .cardtitle {
   font-weight: bold;
   font-size: medium;
   color: var(--gray-040);
 }
 .mediabutton {
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  user-drag: none;
   width: auto;
   height: auto;
   text-align: center;
   margin-top: 10px;
+  opacity: 100%
 }
+
+.mediabutton.lowopacity {
+  width: auto;
+  height: auto;
+  text-align: center;
+  margin-top: 10px;
+  opacity: 10%
+}
+
+#customurlinput {
+  -webkit-user-select: none;
+  user-select: none;
+  border: none;
+}
+
+#customurlinput.error {
+  -webkit-user-select: none;
+  user-select: none;
+  border: red;
+}
+
 #addcustom {
   margin-top: 7px;
 }
+
+#dashboard {
+  -webkit-user-select: none;
+  user-select: none;
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+}
+
 #dashboardLeft {
   width: 200px;
   float: left;
   padding: 20px;
   margin: 20px;
-  border: 1px solid var(--gray-080);
   border-radius: 5px;
-  background-color: hsl(0, 0%, 92%);
-  box-shadow: 0px 5px 10px var(--gray-040);
+  background-color: white;
 }
 
-#dashboardRightTop {
+#dashboardRightTop,
+#dashboardRightDown {
   padding: 20px;
   margin: 20px;
-  border: 1px solid var(--gray-080);
   border-radius: 5px;
-  background-color: hsl(0, 0%, 92%);
-  box-shadow: 0px 5px 10px var(--gray-040);
-}
-#dashboardRightDown{
-  padding: 20px;
-  margin: 20px;
-  border: 1px solid var(--gray-080);
-  border-radius: 5px;
-  background-color: hsl(0, 0%, 92%);
-  box-shadow: 0px 5px 10px var(--gray-040);
+  background-color: white;
 }
 #unblockboard {
   margin: 10px;
@@ -296,8 +315,10 @@ main section:last-child {
   width: 60px;
 }
 #addBtn {
-  background: grey;
-  color: white;
+  background: hsl(0, 0%, 80%);
+  color: hsl(0, 0%, 100%);
+  font-weight: bolder;
+  font-size: 120%;
   height: 40px;
   margin-top: 10px;
   margin-bottom: 20px;
@@ -307,10 +328,11 @@ main section:last-child {
 }
 input[type="text"] {
   color: var(--gray-020);
+  text-align: left;
   margin: 0 auto;
   padding: 10px;
   border-radius: 5px;
-  background-color: rgb(255, 255, 255);
+  background-color: hsl(0, 0%, 95%);
   border: none;
   width: 90%;
   display: block;

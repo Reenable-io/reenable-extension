@@ -5,7 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="popup.css" />
-  <script src="jquery.js"></script>
+  <script src="lib/jquery.js"></script>
+  <script  data-main="config" src="lib/require.js"></script>
 </head>
 
 <body>
@@ -100,21 +101,21 @@
               width="32px" />
           </button>
           <button class="mediabutton" id="twitch" data-url="https://www.twitch.tv/">
-            <img src="http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=http://twitch.tv" alt="twitch.tv"
+            <img src="http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=http://twitch.tv" alt="twitchBtn"
               width="32px" />
           </button>
           <button class="mediabutton" id="whatsapp" data-url="https://www.whatsapp.com/">
             <img src="http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=http://whatsapp.com"
-              alt="whatsapp.com" width="32px" />
+              alt="whatsappBtn" width="32px" />
           </button>
           <button class="mediabutton" id="tiktok" data-url="https://www.tiktok.com/">
-            <img src="http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=http://tiktok.com" alt="tiktok.com"
+            <img src="http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=http://tiktok.com" alt="tiktokBtn"
               width="32px" />
           </button>
         </div>
         <br />
         <div id="customurldiv">
-          <button id="addcustom"> oui </button>
+          <p id="addcustom">Custom</p>
           <input type="text" placeholder="Enter URL" id="customurlinput" hidden /><br />
           <button id="customurladdbtn">Add</button hidden>
         </div>
@@ -134,11 +135,11 @@
         <div id="dashboardRightDown">
           <div class="cardtitle"><span>Unblock fee</span></div><br />
           <input type="range" min="1" max="100" value="30" class="slider" id="priceslider"><br />
-          <span>Value: </span> <span id="demo"></span> <span>USD</span><br />
+          <span>Value: </span> <span id="demo"></span> <button id="currencyBtn">USD</button><br />
         </div>
       </div>
     </div>
-    <button id="addBtn">Block these websites</button>
+    <button id="addBtn">Block</button>
     <div id="unblockboard" hidden>
       <div id="unblockboardleft">
         <label id="unblockboardhead">Blocked websites</label>
