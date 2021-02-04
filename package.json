@@ -1,0 +1,14 @@
+{
+  "name": "reenable-extension",
+  "version": "0.0.4",
+  "description": "Reenable.io https://www.reenable.io",
+  "main": "popup.js",
+  "scripts": {
+    "build": "browserify popup.js -o bundle.js"
+  },
+  "author": "Reenable",
+  "license": "MIT",
+  "devDependencies": {
+    "browserify": "^17.0.0"
+  }
+}
