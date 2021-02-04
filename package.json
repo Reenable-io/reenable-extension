@@ -4,11 +4,13 @@
   "description": "Reenable.io https://www.reenable.io",
   "main": "popup.js",
   "scripts": {
-    "build": "browserify popup.js -o bundle.js"
+    "build": "browserify popup.js -o bundle.js",
+    "watch": "watch popup.js -o bundle.js"
   },
   "author": "Reenable",
   "license": "MIT",
   "devDependencies": {
-    "browserify": "^17.0.0"
+    "browserify": "^17.0.0",
+    "watchify": "^4.0.0"
   }
 }

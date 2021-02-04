@@ -5,14 +5,15 @@ const { url } = require("inspector");
 
 $(document).ready(function() {
 
+$(document).ready(function() {
 let storage = chrome.storage.local;
 var slider = document.getElementById("priceslider");
 var output = document.getElementById("demo");
 var mediabutton=$(".mediabutton");
 //var resetbtn=$("#resetbtn");
 var addcustom=$("#addcustom");
-var customurldiv=$("#customurldiv");
-var customurlinput=$("#customurlinput");
+var customurldiv=$("#customurldiv"); 
+var customurlinput=$("customurlinput");
 var customurladdbtn=$("#customurladdbtn");
 var showblocklist=$("#showblocklist");
 var unblockboard=$("#unblockboard");
@@ -82,15 +83,10 @@ addcustom.click(function()
   addcustom.prop('hidden', true);
 });
 
-customurlinput.input.addEventListener("keyup", function(event) {
-  if (event.key == "Enter") {
-    event.preventDefault();
-    document.getElementById(customurladdbtn).click();
-  }});
-
 customurladdbtn.click(function()
 {
-  $( "#mediabuttondiv" ).append( '<button class="mediabutton" id="'+customurlinput+'" data-url="'+customurlinput+'" disabled>'+customurlinput+'</button>');
+  var input = $(input[id="customurlinput"])
+  $( "#mediabuttondiv" ).append( '<button class="mediabutton" id="'+input+'" data-url="'+input+'" disabled>'+input+'</button>');
 });
 
 addbtn.click(function()
@@ -196,4 +192,5 @@ function showInfo(type,text)
   }
 }
 })
+});
 },{"inspector":1}]},{},[2]);
