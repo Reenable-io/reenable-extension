@@ -85,7 +85,7 @@ addcustom.click(function()
 
 customurladdbtn.click(function()
 {
-  var input = $(input[id="customurlinput"])
+  var input = customurlinput.val()
   $( "#mediabuttondiv" ).append( '<button class="mediabutton" id="'+input+'" data-url="'+input+'" disabled>'+input+'</button>');
 });
 
