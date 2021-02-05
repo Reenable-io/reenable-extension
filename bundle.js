@@ -1,6 +1,4 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-
-},{}],2:[function(require,module,exports){
 const { url } = require("inspector");
 
 $(document).ready(function() {
@@ -19,9 +17,7 @@ var showblocklist=$("#showblocklist");
 var unblockboard=$("#unblockboard");
 var dashboard=$("#dashboard");
 var unblockboardhead=$("#unblockboardhead");
-
-
-var addbtn=$("#addbtn");
+var addbtn=$("#addBtn");
 var urls=[];
 var dburllist=[];
 var myRange=1;
@@ -73,8 +69,8 @@ location.reload();
 });*/
 
 mediabutton.click(function() {
-  mediabutton.removeClass("lowopacity");
   $(this).addClass("lowopacity");
+  const medUrl = $(this).attr("data-url")
 });
 
 addcustom.click(function()
@@ -91,18 +87,23 @@ customurladdbtn.click(function()
 
 addbtn.click(function()
 {
-  $(".mediabutton").each(function()
-  {
-    if($(this).prop('disabled'))
+  $(".mediabutton").each(function(){
+    if($(this).hasClass('lowopacity'))
     urls.push($(this).attr("data-url"));
-  })
+  });
+
 
   let till=$("#blockuntill").val();
   let from=$("#timefrom").val();
   let to=$("#timeto").val();
   let price=myRange;
 
- let urllist=[];
+  if(!till || !from || !to || !price){
+    return console.log("Blocked until date not valid.")
+  }
+  
+
+ /*let urllist=[];
   for(let i=0;i<urls.length;i++)
   {
     if(dburllist.indexOf(urls[i])==-1 && till!="")
@@ -118,7 +119,7 @@ addbtn.click(function()
        location.reload();
       }, 3000); 
     });
-  }
+  }*/
 });
 
 showblocklist.click(function()
@@ -193,4 +194,6 @@ function showInfo(type,text)
 }
 })
 });
-},{"inspector":1}]},{},[2]);
+},{"inspector":2}],2:[function(require,module,exports){
+
+},{}]},{},[1]);
