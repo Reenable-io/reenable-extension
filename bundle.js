@@ -19,17 +19,21 @@
         var dashboard = $("#dashboard");
         var unblockboardhead = $("#unblockboardhead");
         var addbtn = $("#addBtn");
-        curlBtn = $("#currentUrlBtn")
+        var curlBtn = $("#currentUrlBtn")
+        
 
         var blocktest = $("#blocktest") //TODO remove
 
         var urls = [];
         var dburllist = [];
         var myRange = 1;
+        var cutUrl = []
 
         output.innerHTML = slider.value;
 
         mediabutton.on('dragstart', function (event) { event.preventDefault(); });
+
+
 
         slider.oninput = function () {
           output.innerHTML = this.value;
@@ -38,40 +42,6 @@
 
           }
         }
-
-        blocktest.click(function () { //TODO remove
-          chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
-            console.log(tabs[0].url);
-          });
-          /*findAllURL = function changeAllURL(toBlock) {
-
-            document.documentElement.innerHTML = '';
-            document.documentElement.innerHTML = 'Domain is blocked';
-            document.documentElement.scrollTop = 0;
-          }
-
-          findAllURL("https://www.reenable.io/")
-
-          function blockRequest(details) {
-            return { cancel: true };
-          }
-
-          function updateFilters(urls) {
-            if (chrome.webRequest.onBeforeRequest.hasListener(blockRequest))
-              chrome.webRequest.onBeforeRequest.removeListener(blockRequest);
-            chrome.webRequest.onBeforeRequest.addListener(blockRequest, { urls: ["https://www.reenable.io/"] }, ['blocking']);
-
-            chrome.tabs.query({ windowType: 'normal' }, function (tabs) {
-              for (var i = 0; i < tabs.length; i++) {
-                chrome.tabs.update(tabs[i].id, { url: tabs[i].url });
-              }
-            });
-            sAlert("success", "Successfully blocked websites.")
-          }
-
-          updateFilters();*/
-
-        })
 
         /*chrome.runtime.sendMessage({job: "getBlockInfoFromDb"}, function(response) {
           
@@ -107,28 +77,38 @@
         location.reload();
         });*/
 
-        mediabutton.click(function () {
-          $(this).addClass("lowopacity");
-          const medUrl = $(this).attr("data-url")
-          const cutUrl = []
+        $(document).on('mousemove', function(e){
+          $('#tooltip').css({
+             left:  e.pageX,
+             top:   e.pageY
+          });
+        });
 
-          for (const urlval in medUrl) {
-            cutUrl.push(urlval)
+        mediabutton.each(function () {
+          $(this).attr("title", $(this).attr("data-url").split("//").pop().split("/")[0])
+        })
+
+        mediabutton.click(function () {
+          if($(this).hasClass("lowopacity")){
+            $(this).removeClass("lowopacity")
+            let index = cutUrl.indexOf($(this))
+            cutUrl.splice(index, 1);
+
+          } else {
+            $(this).addClass("lowopacity");
+
+            medUrl = $(this).attr("data-url")
+            cutUrl.push(medUrl)
           }
           console.log(cutUrl)
-
         });
 
         curlBtn.click(function () {
-          var currentUrl;
-
           chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
-            currentUrl = tabs[0].url
+            currentUrl = tabs[0].url.split("//").pop().split("/")[0]
+            sAlert("success", "Successfully saved the website " + currentUrl)
             console.log(currentUrl)
-            console.log(typeof currentUrl)
           });
-
-          sAlert("success", "Successfully saved the site " + currentUrl)
         })
 
         addcustom.click(function () {
@@ -229,12 +209,12 @@
           if (type == "success") {
             $('#info').text(text);
             $('#info').css({ "background-color": "green", "height": "30px", "padding-top": "10px", "color": "white", "text-align": "center", "font-size": "15px" });
-            $('#info').delay(3000).fadeOut().removeAttr('style');
+            $('#info').delay(3000).fadeOut();
           }
           if (type == "failure") {
             $('#info').text(text);
             $('#info').css({ "background-color": "red", "height": "30px", "padding-top": "10px", "color": "black", "text-align": "center", "font-size": "15px" });
-            $('#info').delay(3000).fadeOut().removeAttr('style');
+            $('#info').delay(3000).fadeOut();
           }
         }
       })
