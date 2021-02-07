@@ -3,7 +3,7 @@
   "name": "Reenable - Website Blocker",
   "description": "Bad conscience can't make you quit wasting your time on social media, but money can.",
   "short_name": "Reenable",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "icons": {
     "128": "images/iconR.png"
   },
@@ -28,5 +28,5 @@
     "webRequestBlocking",
     "webNavigation"
   ],
-  "author": "Masum"
+  "author": "Reenable"
 }
