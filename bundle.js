@@ -133,9 +133,9 @@
 
         customurladdbtn.click(function () {
           var input = $('input[id=customurlinput]').val();
-          var image = "http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=http://"+input
-          $("#mediabuttondiv").append('<button class="mediabutton" id="' + input + '" data-url="' + input + '" disabled>' + input + '</button>');
-          //$("#"+input).append('<img src='+image+'alt="whatsappBtn" width="32px" />')
+          var image = "http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=https://"+input
+          $("#mediabuttondiv").append('<button class="mediabutton" id="' + input + '" data-url="' + input + '" disabled><img src='+image+'alt="whatsappBtn" width="32px" /> </button>');
+          $("#"+input).append('<img src='+image+'alt="whatsappBtn" width="32px" /> </button>')
           console.log(image)
         });
 
