@@ -19,9 +19,7 @@
         var dashboard = $("#dashboard");
         var unblockboardhead = $("#unblockboardhead");
         var addbtn = $("#addBtn");
-        curlBtn = $("#currentUrlBtn")
-
-        var blocktest = $("#blocktest") //TODO remove
+        var curlBtn = $("#currentUrlBtn")
 
         var urls = [];
         var dburllist = [];
@@ -30,6 +28,12 @@
         output.innerHTML = slider.value;
 
         mediabutton.on('dragstart', function (event) { event.preventDefault(); });
+
+        context = document.getElementById("currentUrlCanvas").getContext("2d");
+        context.font = "26px Arial"
+        context.fillStyle = "white"
+        context.textAlign = "center"
+        context.fillText("C", 16, 25)
 
         slider.oninput = function () {
           output.innerHTML = this.value;
@@ -122,21 +126,63 @@
         curlBtn.click(function () {
           var currentUrl;
 
-          chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
-            currentUrl = tabs[0].url
-            console.log(currentUrl)
-            console.log(typeof currentUrl)
-          });
+          chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) { currentUrl = tabs[0].url });
+
+          console.log(currentUrl)
+
+          try{
+            currentUrl = currentUrl.split("/").join("^") 
+            currentUrl = currentUrl.split("https://").pop().split("http://").pop().split("^")[0];
+          }
+          catch(error){
+            sAlert("failure", "error 1")
+            return console.log(error)
+          }
 
           sAlert("success", "Successfully saved the site " + currentUrl)
         })
 
+        function addUrl(input_url, input_name, image_url){
+          var input = input_url;
+
+          mediabutton.each(function(){
+            if($(this).attr("id") === input_name){
+              return sAlert("failure", 'Duplicate: '+input)
+            }
+          });
+
+          $("#mediabuttondiv").append($('\
+                <button class="mediabutton" id="' + input_name + '" data-url="https://www.' + input + '/">\
+                <img src='+image_url+' alt="'+input_name+'" width="32px" /> \
+                </button>'));
+        }
+
         customurladdbtn.click(function () {
           var input = $('input[id=customurlinput]').val();
-          var image = "http://s2.googleusercontent.com/s2/favicons?sz=32&domain_url=https://"+input
-          $("#mediabuttondiv").append('<button class="mediabutton" id="' + input + '" data-url="' + input + '" disabled><img src='+image+'alt="whatsappBtn" width="32px" /> </button>');
-          $("#"+input).append('<img src='+image+'alt="whatsappBtn" width="32px" /> </button>')
-          console.log(image)
+
+          try{
+            input = input.split("/").join("^").split("https:^^").pop().split("http:^^").pop().split("^")[0];
+          }
+          catch(error){
+            sAlert("failure", "error 1")
+            return console.log(error)
+          }
+
+          if(!input.includes(".") && !input){
+            return sAlert("failure", "error 2")
+          }
+
+          var input_name = input.split(".")[0]
+          var image = "https://s2.googleusercontent.com/s2/favicons?sz=32&domain="+input
+
+          addUrl(input, input_name, image)
+        });
+
+        $("#customurlinput").keypress(function(event) {
+          if (event.keyCode === 13) {
+            event.preventDefault();
+            customurladdbtn.click();
+          }
         });
 
         addbtn.click(function () {
@@ -227,12 +273,12 @@
           if (type == "success") {
             $('#info').text(text);
             $('#info').css({ "background-color": "green", "height": "30px", "padding-top": "10px", "color": "white", "text-align": "center", "font-size": "15px" });
-            $('#info').delay(3000).fadeOut().removeAttr('style');
+            $('#info').delay(3000).fadeOut()
           }
           if (type == "failure") {
             $('#info').text(text);
             $('#info').css({ "background-color": "red", "height": "30px", "padding-top": "10px", "color": "black", "text-align": "center", "font-size": "15px" });
-            $('#info').delay(3000).fadeOut().removeAttr('style');
+            $('#info').delay(3000).fadeOut()
           }
         }
       })
