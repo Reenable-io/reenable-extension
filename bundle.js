@@ -158,10 +158,9 @@
             }
           })
 
-          console.log(urls)
+          if (urls.length == 0) return sAlert("failure", "Please provide at least 1 website to block.");
 
           findAllURL = function changeAllURL(toBlock) {
-
             document.documentElement.innerHTML = '';
             document.documentElement.innerHTML = 'Domain is blocked';
             document.documentElement.scrollTop = 0;
@@ -174,19 +173,21 @@
               },
               { urls: urls }, ["blocking"]);
 
-            /*chrome.tabs.query({ windowType: 'normal' }, function (tabs) {
+            chrome.tabs.query({ windowType: 'normal' }, function (tabs) {
               for (var i = 0; i < tabs.length; i++) {
+                /*
                 for (var i = 0; i < urls.length; i++) {
                   url1 = urls[i].slice(0, -1)
                   console.log(url1)
                   tab_url = tabs[i].url.split(/\/(.+)/)
                   console.log(tab_url)
                   if (url1.includes(tabs[i].url)) {
-                    chrome.tabs.update(tabs[i].id, { url: tabs[i].url });
-                  }
-                }
+                    */
+                chrome.tabs.update(tabs[i].id, { url: tabs[i].url });
+                //}
+                //}
               }
-            });*/
+            });
           }
 
           updateFilters(urls);
@@ -195,11 +196,6 @@
           let from = $("#timefrom").val();
           let to = $("#timeto").val();
           let price = myRange;
-
-          if (!urls) {
-            sAlert("failure", "Please provide urls")
-          }
-
 
           /*let urllist=[];
             for(let i=0;i<urls.length;i++)
@@ -270,12 +266,12 @@
         function sAlert(type, text) {
           if (type == "success") {
             $('#info').text(text);
-            $('#info').css({ "background-color": "green", "height": "30px", "padding-top": "10px", "color": "white", "text-align": "center", "font-size": "15px" });
+            $('#info').css({ "background-color": "green", "height": "30px", "padding-top": "10px", "color": "white", "text-align": "center", "font-size": "15px", "position": "absolute" });
             $('#info').delay(3000).fadeOut()
           }
           if (type == "failure") {
             $('#info').text(text);
-            $('#info').css({ "background-color": "red", "height": "30px", "padding-top": "10px", "color": "black", "text-align": "center", "font-size": "15px" });
+            $('#info').css({ "background-color": "red", "height": "30px", "width": "100%", "padding-top": "10px", "color": "black", "text-align": "center", "font-size": "15px", "position": "absolute" });
             $('#info').delay(3000).fadeOut()
           }
         }
