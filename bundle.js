@@ -94,11 +94,11 @@
 
           console.log(currentUrl)
 
-          try{
-            currentUrl = currentUrl.split("/").join("^") 
+          try {
+            currentUrl = currentUrl.split("/").join("^")
             currentUrl = currentUrl.split("https://").pop().split("http://").pop().split("^")[0];
           }
-          catch(error){
+          catch (error) {
             sAlert("failure", "error 1")
             return console.log(error)
           }
@@ -106,43 +106,43 @@
           sAlert("success", "Successfully saved the site " + currentUrl)
         })
 
-        function addUrl(input_url, input_name, image_url){
+        function addUrl(input_url, input_name, image_url) {
           var input = input_url;
 
-          mediabutton.each(function(){
-            if($(this).attr("id") === input_name){
-              return sAlert("failure", 'Duplicate: '+input)
+          mediabutton.each(function () {
+            if ($(this).attr("id") === input_name) {
+              return sAlert("failure", 'Duplicate: ' + input)
             }
           });
 
           $("#mediabuttondiv").append($('\
                 <button class="mediabutton" id="' + input_name + '" data-url="https://www.' + input + '/">\
-                <img src='+image_url+' alt="'+input_name+'" width="32px" /> \
+                <img src='+ image_url + ' alt="' + input_name + '" width="32px" /> \
                 </button>'));
         }
 
         customurladdbtn.click(function () {
           var input = $('input[id=customurlinput]').val();
 
-          try{
+          try {
             input = input.split("/").join("^").split("https:^^").pop().split("http:^^").pop().split("^")[0];
           }
-          catch(error){
+          catch (error) {
             sAlert("failure", "error 1")
             return console.log(error)
           }
 
-          if(!input.includes(".") && !input){
+          if (!input.includes(".") && !input) {
             return sAlert("failure", "error 2")
           }
 
           var input_name = input.split(".")[0]
-          var image = "https://s2.googleusercontent.com/s2/favicons?sz=32&domain="+input
+          var image = "https://s2.googleusercontent.com/s2/favicons?sz=32&domain=" + input
 
           addUrl(input, input_name, image)
         });
 
-        $("#customurlinput").keypress(function(event) {
+        $("#customurlinput").keypress(function (event) {
           if (event.keyCode === 13) {
             event.preventDefault();
             customurladdbtn.click();
@@ -152,8 +152,8 @@
         addbtn.click(function () {
           $(".mediabutton").each(function () {
             if ($(this).hasClass('lowopacity')) {
-              if(!urls.includes($(this).attr("data-url"))){
-                urls.push($(this).attr("data-url"));
+              if (!urls.includes($(this).attr("data-url") + "*")) {
+                urls.push($(this).attr("data-url") + "*");
               }
             }
           })
@@ -161,29 +161,34 @@
           console.log(urls)
 
           findAllURL = function changeAllURL(toBlock) {
-          
+
             document.documentElement.innerHTML = '';
             document.documentElement.innerHTML = 'Domain is blocked';
             document.documentElement.scrollTop = 0;
           }
-          
+
           function updateFilters(urls) {
-            //if (chrome.webRequest.onBeforeRequest.hasListener(blockRequest)){
-              chrome.webRequest.onBeforeRequest.addListener(
-                function() { 
-                  return {cancel: true}; 
-                },
-                { urls: urls }, ["blocking"]);
-            //}
-            chrome.tabs.query({ windowType: 'normal' }, function (tabs) {
+            chrome.webRequest.onBeforeRequest.addListener(
+              function () {
+                return { cancel: true };
+              },
+              { urls: urls }, ["blocking"]);
+
+            /*chrome.tabs.query({ windowType: 'normal' }, function (tabs) {
               for (var i = 0; i < tabs.length; i++) {
-                if(urls.includes(tabs[i].url)){
-                  chrome.tabs.update(tabs[i].id, { url: tabs[i].url });
+                for (var i = 0; i < urls.length; i++) {
+                  url1 = urls[i].slice(0, -1)
+                  console.log(url1)
+                  tab_url = tabs[i].url.split(/\/(.+)/)
+                  console.log(tab_url)
+                  if (url1.includes(tabs[i].url)) {
+                    chrome.tabs.update(tabs[i].id, { url: tabs[i].url });
+                  }
                 }
               }
-            });
+            });*/
           }
-          
+
           updateFilters(urls);
 
           let till = $("#blockuntill").val();
