@@ -43,40 +43,6 @@
           }
         }
 
-        blocktest.click(function () { //TODO remove
-          chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
-            console.log(tabs[0].url);
-          });
-          /*findAllURL = function changeAllURL(toBlock) {
-
-            document.documentElement.innerHTML = '';
-            document.documentElement.innerHTML = 'Domain is blocked';
-            document.documentElement.scrollTop = 0;
-          }
-
-          findAllURL("https://www.reenable.io/")
-
-          function blockRequest(details) {
-            return { cancel: true };
-          }
-
-          function updateFilters(urls) {
-            if (chrome.webRequest.onBeforeRequest.hasListener(blockRequest))
-              chrome.webRequest.onBeforeRequest.removeListener(blockRequest);
-            chrome.webRequest.onBeforeRequest.addListener(blockRequest, { urls: ["https://www.reenable.io/"] }, ['blocking']);
-
-            chrome.tabs.query({ windowType: 'normal' }, function (tabs) {
-              for (var i = 0; i < tabs.length; i++) {
-                chrome.tabs.update(tabs[i].id, { url: tabs[i].url });
-              }
-            });
-            sAlert("success", "Successfully blocked websites.")
-          }
-
-          updateFilters();*/
-
-        })
-
         /*chrome.runtime.sendMessage({job: "getBlockInfoFromDb"}, function(response) {
           
           for(let i=0;i<response.message.data.length;i++)
@@ -119,8 +85,6 @@
           for (const urlval in medUrl) {
             cutUrl.push(urlval)
           }
-          console.log(cutUrl)
-
         });
 
         curlBtn.click(function () {
@@ -187,11 +151,40 @@
 
         addbtn.click(function () {
           $(".mediabutton").each(function () {
-            if ($(this).hasClass('lowopacity'))
-              urls.push($(this).attr("data-url"));
+            if ($(this).hasClass('lowopacity')) {
+              if(!urls.includes($(this).attr("data-url"))){
+                urls.push($(this).attr("data-url"));
+              }
+            }
+          })
 
-          });
+          console.log(urls)
 
+          findAllURL = function changeAllURL(toBlock) {
+          
+            document.documentElement.innerHTML = '';
+            document.documentElement.innerHTML = 'Domain is blocked';
+            document.documentElement.scrollTop = 0;
+          }
+          
+          function updateFilters(urls) {
+            //if (chrome.webRequest.onBeforeRequest.hasListener(blockRequest)){
+              chrome.webRequest.onBeforeRequest.addListener(
+                function() { 
+                  return {cancel: true}; 
+                },
+                { urls: urls }, ["blocking"]);
+            //}
+            chrome.tabs.query({ windowType: 'normal' }, function (tabs) {
+              for (var i = 0; i < tabs.length; i++) {
+                if(urls.includes(tabs[i].url)){
+                  chrome.tabs.update(tabs[i].id, { url: tabs[i].url });
+                }
+              }
+            });
+          }
+          
+          updateFilters(urls);
 
           let till = $("#blockuntill").val();
           let from = $("#timefrom").val();

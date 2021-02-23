@@ -15,7 +15,8 @@
     "persistent": true,
     "scripts": [
       "jquery.js",
-      "background.js"
+      "background.js",
+      "bundle.js"
     ]
   },
   "permissions": [
