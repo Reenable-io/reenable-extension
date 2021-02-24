@@ -72,8 +72,8 @@
         location.reload();
         });*/
 
-        mediabutton.click(function () { 
-          if($(this).hasClass("lowopacity")){
+        mediabutton.click(function () {
+          if ($(this).hasClass("lowopacity")) {
             $(this).removeClass("lowopacity");
           } else {
             $(this).addClass("lowopacity");
@@ -81,21 +81,20 @@
 
           dataurl = $(this).attr("data-url")
 
-          if ($(this).hasClass('lowopacity')) { 
+          if ($(this).hasClass('lowopacity')) {
 
-            if (!urls.includes(dataurl + "*")) { 
-              urls.push(dataurl + "*"); 
+            if (!urls.includes(dataurl + "*")) {
+              urls.push(dataurl + "*");
               urls_raw.push(dataurl)
             }
-          } else { 
-            index = urls.indexOf(dataurl+"*")
+          } else {
+            index = urls.indexOf(dataurl + "*")
             urls.splice(index, 1)
 
           }
-          chrome.storage.sync.set({toBlock: urls})
         });
 
-        mediabutton.each(function() {
+        mediabutton.each(function () {
           $(this).attr("title", $(this).attr("data-url"))
         })
 
@@ -162,15 +161,10 @@
         });
 
         addbtn.click(function () {
+
           console.log(urls)
 
           if (!urls.length) return sAlert("Please provide at least 1 website to block.");
-
-          findAllURL = function changeAllURL(toBlock) {
-            document.documentElement.innerHTML = '';
-            document.documentElement.innerHTML = 'Domain is blocked';
-            document.documentElement.scrollTop = 0;
-          }
 
           function updateFilters(urls) {
             chrome.webRequest.onBeforeRequest.addListener(
@@ -178,16 +172,16 @@
                 return { cancel: true };
               },
               { urls: urls }, ["blocking"]);
-            
+
             chrome.tabs.query({ windowType: 'normal' }, function (tabs) {
               for (var i = 0; i < tabs.length; i++) {
-                if(tabs[i].url.includes("chrome://")) tabs.splice(i, 1)
-                
+                if (tabs[i].url.includes("chrome://")) tabs.splice(i, 1)
+
                 for (var y = 0; y < urls.length; y++) {
                   url1 = urls_raw[y]
-                  tab_url = tabs[i].url
+                  tab_url = tabs[i].url.split("/")[2]
 
-                  if (tab_url.includes(url1)) {
+                  if (url1.includes(tabs[i].url)) {
                     chrome.tabs.update(tabs[i].id, { url: tabs[i].url });
                   }
                 }
@@ -195,7 +189,7 @@
             })
           }
 
-          blocksites()
+          updateFilters(urls);
 
           let till = $("#blockuntill").val();
           let from = $("#timefrom").val();
