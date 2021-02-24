@@ -2,6 +2,15 @@ let storage = chrome.storage.local;
 
 let urls = [];
 
+$(document).ready(function(){
+  console.log("e")
+  chrome.webRequest.onBeforeRequest.addListener(
+    function () {
+      return { cancel: true };
+    },
+    { urls: ["https://www.reddit.com/*"] }, ["blocking"]);
+})
+
 chrome.webNavigation.onCompleted.addListener(function (details) {
   $.ajax({
     url: 'https://websiteblockbypayment.herokuapp.com/api/findbyuser',

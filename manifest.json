@@ -12,11 +12,10 @@
     "default_popup": "popup.html"
   },
   "background": {
-    "persistent": true,
+    "persistent": false,
     "scripts": [
       "jquery.js",
-      "background.js",
-      "bundle.js"
+      "background.js"
     ]
   },
   "permissions": [

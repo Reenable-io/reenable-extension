@@ -22,18 +22,13 @@
         var curlBtn = $("#currentUrlBtn")
 
         var urls = [];
+        var urls_raw = [];
         var dburllist = [];
         var myRange = 1;
 
         output.innerHTML = slider.value;
 
         mediabutton.on('dragstart', function (event) { event.preventDefault(); });
-
-        context = document.getElementById("currentUrlCanvas").getContext("2d");
-        context.font = "26px Arial"
-        context.fillStyle = "white"
-        context.textAlign = "center"
-        context.fillText("C", 16, 25)
 
         slider.oninput = function () {
           output.innerHTML = this.value;
@@ -77,15 +72,32 @@
         location.reload();
         });*/
 
-        mediabutton.click(function () {
-          $(this).addClass("lowopacity");
-          const medUrl = $(this).attr("data-url")
-          const cutUrl = []
-
-          for (const urlval in medUrl) {
-            cutUrl.push(urlval)
+        mediabutton.click(function () { 
+          if($(this).hasClass("lowopacity")){
+            $(this).removeClass("lowopacity");
+          } else {
+            $(this).addClass("lowopacity");
           }
+
+          dataurl = $(this).attr("data-url")
+
+          if ($(this).hasClass('lowopacity')) { 
+
+            if (!urls.includes(dataurl + "*")) { 
+              urls.push(dataurl + "*"); 
+              urls_raw.push(dataurl)
+            }
+          } else { 
+            index = urls.indexOf(dataurl+"*")
+            urls.splice(index, 1)
+
+          }
+          chrome.storage.sync.set({toBlock: urls})
         });
+
+        mediabutton.each(function() {
+          $(this).attr("title", $(this).attr("data-url"))
+        })
 
         curlBtn.click(function () {
           var currentUrl;
@@ -150,15 +162,9 @@
         });
 
         addbtn.click(function () {
-          $(".mediabutton").each(function () {
-            if ($(this).hasClass('lowopacity')) {
-              if (!urls.includes($(this).attr("data-url") + "*")) {
-                urls.push($(this).attr("data-url") + "*");
-              }
-            }
-          })
+          console.log(urls)
 
-          if (urls.length == 0) return sAlert("failure", "Please provide at least 1 website to block.");
+          if (!urls.length) return sAlert("Please provide at least 1 website to block.");
 
           findAllURL = function changeAllURL(toBlock) {
             document.documentElement.innerHTML = '';
@@ -172,25 +178,24 @@
                 return { cancel: true };
               },
               { urls: urls }, ["blocking"]);
-
+            
             chrome.tabs.query({ windowType: 'normal' }, function (tabs) {
               for (var i = 0; i < tabs.length; i++) {
-                /*
-                for (var i = 0; i < urls.length; i++) {
-                  url1 = urls[i].slice(0, -1)
-                  console.log(url1)
-                  tab_url = tabs[i].url.split(/\/(.+)/)
-                  console.log(tab_url)
-                  if (url1.includes(tabs[i].url)) {
-                    */
-                chrome.tabs.update(tabs[i].id, { url: tabs[i].url });
-                //}
-                //}
+                if(tabs[i].url.includes("chrome://")) tabs.splice(i, 1)
+                
+                for (var y = 0; y < urls.length; y++) {
+                  url1 = urls_raw[y]
+                  tab_url = tabs[i].url
+
+                  if (tab_url.includes(url1)) {
+                    chrome.tabs.update(tabs[i].id, { url: tabs[i].url });
+                  }
+                }
               }
-            });
+            })
           }
 
-          updateFilters(urls);
+          blocksites()
 
           let till = $("#blockuntill").val();
           let from = $("#timefrom").val();
