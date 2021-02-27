@@ -220,6 +220,18 @@ main section:last-child {
   margin-bottom: 12px;
 }
 
+#popupInfo {
+  visibility: hidden;
+  width: 100%;
+  height: 40px;
+  fill-opacity: 10%;
+  background-color: gray;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 3.2vw;
+  position: absolute;
+}
+
 .optionBtn {
   margin: 6px;
   transform: scale(1.2);
