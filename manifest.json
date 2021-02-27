@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "Reenable - Website Blocker",
+  "name": "Reenable",
   "description": "Bad conscience can't make you quit wasting your time on social media, but money can.",
   "short_name": "Reenable",
   "version": "0.0.5",
@@ -12,7 +12,6 @@
     "default_popup": "popup.html"
   },
   "background": {
-    "persistent": false,
     "scripts": [
       "jquery.js",
       "background.js"
@@ -20,13 +19,15 @@
   },
   "permissions": [
     "<all_urls>",
+    "activeTabs",
     "declarativeContent",
     "storage",
     "tabs",
     "unlimitedStorage",
     "webRequest",
     "webRequestBlocking",
-    "webNavigation"
+    "webNavigation",
+    "background"
   ],
   "author": "Reenable"
 }

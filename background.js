@@ -1,14 +1,53 @@
 let storage = chrome.storage.local;
 
-let urls = [];
+let urls_2 = [];
 
-$(document).ready(function(){
-  console.log("e")
-  chrome.webRequest.onBeforeRequest.addListener(
-    function () {
-      return { cancel: true };
-    },
-    { urls: ["https://www.reddit.com/*"] }, ["blocking"]);
+var blockedUrlToStr = "";
+
+function setListener(urls, rawrls) {
+  chrome.storage.local.get("urls_toblock", function (data) {
+    console.log(data.urls_toblock)
+  });
+
+  //if (chrome.webRequest.onBeforeRequest.hasListener(blockRequest(urls))) { chrome.webRequest.onBeforeRequest.removeListener(blockRequest(urls)) }
+  chrome.webRequest.onBeforeRequest.addListener(function (details) {
+    return { redirectUrl: "chrome-extension://" + chrome.runtime.id + "/blocked/page-blocked.html?blocked_url=" + details.url }
+  }, { urls: urls }, ["blocking"]);
+
+  //reloadUrls();
+  chrome.runtime.sendMessage({ job: "getBlockInfoFromDb" }, function (response) {
+  })
+}
+
+function reloadUrls(url) {
+  console.log("url to reload:", url)
+  chrome.tabs.query({ windowType: 'normal' }, function (tabs) {
+    for (var i = 0; i < tabs.length; i++) {
+      if (tabs[i].url.includes("chrome://")) tabs.splice(i, 1)
+
+      for (var y = 0; y < 1; y++) {
+        tab_url = tabs[i].url.split("/")[2]
+
+        if (url.includes(tabs[i].url)) {
+          chrome.tabs.update(tabs[i].id, { url: tabs[i].url });
+        }
+      }
+    }
+  })
+}
+
+function blockRequest(url) {
+  console.log(url)
+  chrome.webRequest.onBeforeRequest.addListener(function (details) {
+    return { redirectUrl: "chrome-extension://" + chrome.runtime.id + "/blocked/page-blocked.html?blocked_url=" + url }
+  }, { urls: [url] }, ["blocking"]);
+
+  reloadUrls(url);
+  chrome.runtime.sendMessage({ job: "getBlockInfoFromDb" }, function (response) { })
+}
+
+chrome.webRequest.onHeadersRecieved.addListener(function (details) {
+  blockRequest(details.url)
 })
 
 chrome.webNavigation.onCompleted.addListener(function (details) {
@@ -22,20 +61,20 @@ chrome.webNavigation.onCompleted.addListener(function (details) {
     data: JSON.stringify({ "name": "mas@gmail.com" }),
     success: function (results) {
       for (let i = 0; i < results.data.length; i++) {
-        urls.push(results.data[i].url);
+        urls_2.push(results.data[i].url);
       }
       chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         var activeTab = tabs[0];
         var testurl = activeTab.url;
         var spliturl = testurl.split(".");
-        if (urls.indexOf(testurl) >= 0) {
+        if (urls_2.indexOf(testurl) >= 0) {
           chrome.tabs.remove(activeTab.id, function () { alert("URL removed du to you have block that"); });
         }
-        else if (urls.indexOf(spliturl[0] + "." + spliturl[1]) >= 0) {
+        else if (urls_2.indexOf(spliturl[0] + "." + spliturl[1]) >= 0) {
           chrome.tabs.remove(activeTab.id, function () { alert("URL removed du to you have block that"); });
         }
         else if (spliturl[2]) {
-          if (urls.indexOf(spliturl[0] + "." + spliturl[1] + "." + spliturl[2].split("/")[0] + "/") >= 0)
+          if (urls_2.indexOf(spliturl[0] + "." + spliturl[1] + "." + spliturl[2].split("/")[0] + "/") >= 0)
             chrome.tabs.remove(activeTab.id, function () { alert("URL removed du to you have block that"); });
         }
       });
@@ -87,9 +126,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       data: JSON.stringify({ "name": "mas@gmail.com" }),
       success: function (results) {
         for (let i = 0; i < results.data.length; i++) {
-          urls.push(results.data[i].url);
+          urls_2.push(results.data[i].url);
         }
-        storage.set({ "myblklist": urls });
+        storage.set({ "myblklist": urls_2 });
         sendResponse({
           message: results
         })

@@ -1,10 +1,10 @@
 (function () { function r(e, n, t) { function o(i, f) { if (!n[i]) { if (!e[i]) { var c = "function" == typeof require && require; if (!f && c) return c(i, !0); if (u) return u(i, !0); var a = new Error("Cannot find module '" + i + "'"); throw a.code = "MODULE_NOT_FOUND", a } var p = n[i] = { exports: {} }; e[i][0].call(p.exports, function (r) { var n = e[i][1][r]; return o(n || r) }, p, p.exports, r, e, n, t) } return n[i].exports } for (var u = "function" == typeof require && require, i = 0; i < t.length; i++)o(t[i]); return o } return r })()({
   1: [function (require, module, exports) {
     const { url } = require("inspector");
-
     $(document).ready(function () {
 
       $(document).ready(function () {
+        chrome.storage.sync.clear()
         let storage = chrome.storage.local;
         var slider = document.getElementById("priceslider");
         var output = document.getElementById("demo");
@@ -72,7 +72,7 @@
         location.reload();
         });*/
 
-        mediabutton.click(function () {
+        $(".mediabutton").click(function () {
           if ($(this).hasClass("lowopacity")) {
             $(this).removeClass("lowopacity");
           } else {
@@ -103,7 +103,7 @@
 
           chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) { currentUrl = tabs[0].url });
 
-          console.log(currentUrl)
+          sAlert(currentUrl)
 
           try {
             currentUrl = currentUrl.split("/").join("^")
@@ -111,7 +111,7 @@
           }
           catch (error) {
             sAlert("failure", "error 1")
-            return console.log(error)
+            return sAlert(error)
           }
 
           sAlert("success", "Successfully saved the site " + currentUrl)
@@ -140,7 +140,7 @@
           }
           catch (error) {
             sAlert("failure", "error 1")
-            return console.log(error)
+            return sAlert(error)
           }
 
           if (!input.includes(".") && !input) {
@@ -161,10 +161,13 @@
         });
 
         addbtn.click(function () {
-
-          console.log(urls)
-
           if (!urls.length) return sAlert("Please provide at least 1 website to block.");
+
+          chrome.storage.local.set({ "urls_toblock": urls });
+
+          chrome.storage.local.get("urls_toblock", function (data) {
+            sAlert(data.urls_toblock);
+          });
 
           function updateFilters(urls) {
             chrome.webRequest.onBeforeRequest.addListener(
@@ -182,14 +185,16 @@
                   tab_url = tabs[i].url.split("/")[2]
 
                   if (url1.includes(tabs[i].url)) {
-                    chrome.tabs.update(tabs[i].id, { url: tabs[i].url });
+                    chrome.tabs.update(tabs[i].id, { url: tabs[i].url }); //TODO make this more flexible (http://reddit.com and https://www.reddit.com should both work.)
                   }
                 }
               }
             })
           }
 
-          updateFilters(urls);
+          //updateFilters(urls);
+
+          setListener(urls, urls_raw)
 
           let till = $("#blockuntill").val();
           let from = $("#timefrom").val();
@@ -218,7 +223,7 @@
         showblocklist.click(function () {
           $("#unblockboarddiv").empty();
           chrome.runtime.sendMessage({ job: "getBlockInfoFromDb" }, function (response) {
-            console.log(response.message.data);
+            sAlert(response.message.data);
             data = response.message.data;
             for (let i = 0; i < data.length; i++) {
               $("#unblockboarddiv").append('<button class="blockedmediabutton" id="' + data[i].url.split(".")[1] +
@@ -239,7 +244,7 @@
                 const date2 = new Date($(this).attr("data-date")).getTime();
                 const diffTime = Math.abs(new Date("2020-20-19").getTime() - date1);
                 const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                console.log(diffDays);
+                sAlert(diffDays);
                 $("#untillprogress").attr("max", Math.ceil((Math.abs(date2)) / (1000 * 60 * 60 * 24)));
                 $("#untillprogress").attr("value", diffDays);
               })
@@ -254,7 +259,7 @@
         function hasdublicatebutton(btnstr) {
           let found = false;
           $(".mediabutton").each(function () {
-            if ($(this).attr("id") === btnstr)
+            if ($(this).attr("data-url") === btnstr)
               found = true;
           });
 
@@ -262,17 +267,21 @@
 
         }
 
-        function sAlert(type, text) {
-          if (type == "success") {
-            $('#info').text(text);
-            $('#info').css({ "background-color": "green", "height": "30px", "padding-top": "10px", "color": "white", "text-align": "center", "font-size": "15px", "position": "absolute" });
-            $('#info').delay(3000).fadeOut()
-          }
-          if (type == "failure") {
-            $('#info').text(text);
-            $('#info').css({ "background-color": "red", "height": "30px", "width": "100%", "padding-top": "10px", "color": "black", "text-align": "center", "font-size": "15px", "position": "absolute" });
-            $('#info').delay(3000).fadeOut()
-          }
+        function sAlert(text) {
+          popup = $("#popupInfo")
+          // if (type == "success") {
+          //   $('#info').text(text);
+          //   $('#info').css({ "background-color": "green", "height": "30px", "padding-top": "10px", "color": "white", "text-align": "center", "font-size": "15px", "position": "absolute" });
+          //   $('#info').delay(3000).fadeOut()
+          // }
+          // if (type == "failure") {
+          //   $('#info').text(text);
+          //   $('#info').css({ "background-color": "red", "height": "30px", "width": "100%", "padding-top": "10px", "color": "black", "text-align": "center", "font-size": "15px", "position": "absolute" });
+          //   $('#info').delay(3000).fadeOut()
+          // }
+          popup.text(text)
+          popup.css({ "visibility": "visible", "display": "block" })
+          popup.delay(3000).slideUp("slow")
         }
       })
     });
