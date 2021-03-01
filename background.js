@@ -1,10 +1,21 @@
 let storage = chrome.storage.sync;
 let urls_2 = [];
+var startvar = false;
 
 function get_uuid() {
   var uuid = storage.get("userId", function (data) {
     return data.uuid
   })
+}
+
+function get_urls() {
+  storage.get("urls_toblock", function(data) {
+    return data.urls_toblock;
+  })
+}
+
+function start() {
+  startvar = true;
 }
 
 function update_urls() {
@@ -15,15 +26,18 @@ function update_urls() {
 
 var blockedUrlToStr = "";
 
+function callback(details) {
+  return { redirectUrl: "chrome-extension://" + chrome.runtime.id + "/blocked/page-blocked.html?blocked_url=" + details.url } 
+}
+
+
 function setListener(urls, rawrls) {
   storage.get("urls_toblock", function (data) {
     console.log(data.urls_toblock)
   });
 
-  //if (chrome.webRequest.onBeforeRequest.hasListener(blockRequest(urls))) { chrome.webRequest.onBeforeRequest.removeListener(blockRequest(urls)) }
-  chrome.webRequest.onBeforeRequest.addListener(function (details) {
-    return { redirectUrl: "chrome-extension://" + chrome.runtime.id + "/blocked/page-blocked.html?blocked_url=" + details.url + "" }
-  }, { urls: urls }, ["blocking"]);
+  if (chrome.webRequest.onBeforeRequest.hasListener(callback(details))) { chrome.webRequest.onBeforeRequest.removeListener(callback(details)) }
+  chrome.webRequest.onBeforeRequest.addListener(callback(details), { urls: urls }, ["blocking"]);
 
   //reloadUrls();
   chrome.runtime.sendMessage({ job: "getBlockInfoFromDb" }, function (response) {
@@ -63,6 +77,7 @@ try {
 } catch (err) {
   console.log(err)
 }
+
 
 try {
   chrome.webNavigation.onCompleted.addListener(function (details) {

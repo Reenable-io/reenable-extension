@@ -4,7 +4,7 @@
     $(document).ready(function () {
 
       $(document).ready(function () {
-        let storage = chrome.storage.sync;
+        let storage = chrome.storage.local;
         var slider = document.getElementById("priceslider");
         var output = document.getElementById("demo");
         var mediabutton = $(".mediabutton");
@@ -24,6 +24,7 @@
         var urls_raw = [];
         var dburllist = [];
         var myRange = 1;
+        var start = false;
 
         try {
           var userId = storage.get("userId", function (data) {
@@ -213,7 +214,9 @@
         addbtn.click(function () {
           if (!urls.length) return sAlert("Please provide at least 1 website to block.");
 
-          storage.set({ "urls_toblock": urls });
+          storage.set({ "urls_toblock": urls }, function(details) {
+            console.log("success", details.urls_toblock)
+          });
 
           storage.get("urls_toblock", function (data) {
             sAlert(data.urls_toblock);
@@ -235,7 +238,7 @@
                   tab_url = tabs[i].url.split("/")[2]
 
                   if (url1.includes(tabs[i].url)) {
-                    chrome.tabs.update(tabs[i].id, { url: tabs[i].url }); //TODO make this more flexible (http://reddit.com and https://www.reddit.com should both work.)
+                    chrome.tabs.update(tabs[i].id, { url: tabs[i].url });
                   }
                 }
               }
