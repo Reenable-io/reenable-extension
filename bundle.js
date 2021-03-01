@@ -4,8 +4,7 @@
     $(document).ready(function () {
 
       $(document).ready(function () {
-        chrome.storage.sync.clear()
-        let storage = chrome.storage.local;
+        let storage = chrome.storage.sync;
         var slider = document.getElementById("priceslider");
         var output = document.getElementById("demo");
         var mediabutton = $(".mediabutton");
@@ -25,6 +24,56 @@
         var urls_raw = [];
         var dburllist = [];
         var myRange = 1;
+
+        try {
+          var userId = storage.get("userId", function (data) {
+            return data.userId
+          })
+          console.log(userId)
+        }
+        catch (err) {
+          console.log(err)
+          console.log("uuid not set.")
+          var userId = false;
+        }
+
+        function uuid() {
+          return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+          });
+        }
+
+        chrome.runtime.onInstalled.addListener(function (details) {
+          if (details.reason == "install") {
+            if (!userid) {
+              var userId = uuid();
+              storage.set({ "userId": userId })
+              get_uuid()
+              console.log(userId)
+            }
+
+          } else if (details.reason == "update") {
+
+          } else {
+            if (!userid) {
+              var userId = uuid();
+              storage.set({ "userId": userId })
+              get_uuid()
+              console.log(userId)
+            }
+          }
+        });
+
+        if (!userId) {
+          console.log(userId)
+          var userId = uuid();
+          storage.set({ "userId": userId }, function (details) {
+            console.log("Saved id", userId)
+          })
+
+          get_uuid()
+        }
 
         output.innerHTML = slider.value;
 
