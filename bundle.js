@@ -135,6 +135,7 @@
             if (!urls.includes(dataurl + "*")) {
               urls.push(dataurl + "*");
               urls_raw.push(dataurl)
+              update_urls()
             }
           } else {
             index = urls.indexOf(dataurl + "*")
@@ -212,9 +213,9 @@
         addbtn.click(function () {
           if (!urls.length) return sAlert("Please provide at least 1 website to block.");
 
-          chrome.storage.local.set({ "urls_toblock": urls });
+          storage.set({ "urls_toblock": urls });
 
-          chrome.storage.local.get("urls_toblock", function (data) {
+          storage.get("urls_toblock", function (data) {
             sAlert(data.urls_toblock);
           });
 
