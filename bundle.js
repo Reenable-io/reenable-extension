@@ -26,55 +26,55 @@
         var myRange = 1;
         var start = false;
 
-        try {
-          var userId = storage.get("userId", function (data) {
-            return data.userId
-          })
-          console.log(userId)
-        }
-        catch (err) {
-          console.log(err)
-          console.log("uuid not set.")
-          var userId = false;
-        }
+        // try {
+        //   var userId = storage.get("userId", function (data) {
+        //     return data.userId
+        //   })
+        //   console.log(userId)
+        // }
+        // catch (err) {
+        //   console.log(err)
+        //   console.log("uuid not set.")
+        //   var userId = false;
+        // }
 
-        function uuid() {
-          return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-            return v.toString(16);
-          });
-        }
+        // function uuid() {
+        //   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        //     var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        //     return v.toString(16);
+        //   });
+        // }
 
-        chrome.runtime.onInstalled.addListener(function (details) {
-          if (details.reason == "install") {
-            if (!userid) {
-              var userId = uuid();
-              storage.set({ "userId": userId })
-              get_uuid()
-              console.log(userId)
-            }
+        // chrome.runtime.onInstalled.addListener(function (details) {
+        //   if (details.reason == "install") {
+        //     if (!userid) {
+        //       var userId = uuid();
+        //       storage.set({ "userId": userId })
+        //       get_uuid()
+        //       console.log(userId)
+        //     }
 
-          } else if (details.reason == "update") {
+        //   } else if (details.reason == "update") {
 
-          } else {
-            if (!userid) {
-              var userId = uuid();
-              storage.set({ "userId": userId })
-              get_uuid()
-              console.log(userId)
-            }
-          }
-        });
+        //   } else {
+        //     if (!userid) {
+        //       var userId = uuid();
+        //       storage.set({ "userId": userId })
+        //       get_uuid()
+        //       console.log(userId)
+        //     }
+        //   }
+        // });
 
-        if (!userId) {
-          console.log(userId)
-          var userId = uuid();
-          storage.set({ "userId": userId }, function (details) {
-            console.log("Saved id", userId)
-          })
+        // if (!userId) {
+        //   console.log(userId)
+        //   var userId = uuid();
+        //   storage.set({ "userId": userId }, function (details) {
+        //     console.log("Saved id", userId)
+        //   })
 
-          get_uuid()
-        }
+        //   get_uuid()
+        // }
 
         output.innerHTML = slider.value;
 
@@ -184,21 +184,24 @@
         }
 
         customurladdbtn.click(function () {
-          var input = $('input[id=customurlinput]').val();
+          var inputVal = $('input[id=customurlinput]').val();
+          var input = $('#customurlinput')
 
           try {
-            input = input.split("/").join("^").split("https:^^").pop().split("http:^^").pop().split("^")[0];
+            inputVal = inputVal.split("/").join("^").split("https:^^").pop().split("http:^^").pop().split("^")[0];
           }
           catch (error) {
             sAlert("failure", "error 1")
             return sAlert(error)
           }
 
-          if (!input.includes(".") && !input) {
-            return sAlert("failure", "error 2")
+          if (!inputVal.includes(".")) {
+            console.log("error")
+            input.css({"border": "2px solid red"}).delay(3000).css({"border": "none"})
+            return
           }
 
-          var input_name = input.split(".")[0]
+          var input_name = inputVal.split(".")[0]
           var image = "https://s2.googleusercontent.com/s2/favicons?sz=32&domain=" + input
 
           addUrl(input, input_name, image)

@@ -27,7 +27,7 @@ function update_urls() {
 var blockedUrlToStr = "";
 
 function callback(details) {
-  return { redirectUrl: "chrome-extension://" + chrome.runtime.id + "/blocked/page-blocked.html?blocked_url=" + details.url } 
+  return { redirectUrl: "chrome-extension://" + chrome.runtime.id + "/blocked/page-blocked.html?blocked_url=" + details.url + "eeee" } 
 }
 
 
@@ -40,15 +40,13 @@ function setListener(urls, rawrls) {
   chrome.webRequest.onBeforeRequest.addListener(callback(details), { urls: urls }, ["blocking"]);
 
   //reloadUrls();
-  chrome.runtime.sendMessage({ job: "getBlockInfoFromDb" }, function (response) {
-  })
 }
 
 function reloadUrls(url) {
   console.log("url to reload:", url)
   chrome.tabs.query({ windowType: 'normal' }, function (tabs) {
     for (var i = 0; i < tabs.length; i++) {
-      if (tabs[i].url.includes("chrome://")) tabs.splice(i, 1)
+      if (!tabs[i].url.includes("http")) tabs.splice(i, 1)
 
       for (var y = 0; y < 1; y++) {
         tab_url = tabs[i].url.split("/")[2]
@@ -62,9 +60,9 @@ function reloadUrls(url) {
 }
 
 function blockRequest(url) {
-  console.log(url)
+  console.log(url.split("/").slice(3)[0])
   chrome.webRequest.onBeforeRequest.addListener(function (details) {
-    return { redirectUrl: "chrome-extension://" + chrome.runtime.id + "/blocked/page-blocked.html?blocked_url=" + url + "" }
+    return { redirectUrl: "chrome-extension://" + chrome.runtime.id + "/blocked/page-blocked.html?blocked_url=" + url }
   }, { urls: [url] }, ["blocking"]);
 
   reloadUrls(url);
